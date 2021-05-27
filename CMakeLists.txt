@@ -9,5 +9,8 @@ target_link_libraries(mc-c-client PUBLIC ${CMAKE_SOURCE_DIR}/external/openssl/li
 target_link_libraries(mc-c-client PUBLIC ${CMAKE_SOURCE_DIR}/external/openssl/lib/libssl.a)
 target_include_directories(mc-c-client PUBLIC external/openssl/include)
 
+# ZLIB
+target_link_libraries(mc-c-client PUBLIC ${CMAKE_SOURCE_DIR}/external/zlib/lib/libz.a)
+target_include_directories(mc-c-client PUBLIC external/zlib/include)
 
 target_include_directories(mc-c-client PUBLIC include)
