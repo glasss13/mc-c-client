@@ -1,7 +1,6 @@
 #include "socket.h"
 
 SOCKET create_socket_connect(const char ip[], const int port) {
-
 #ifdef _WIN32
     // random windows init stuff idk
     WSADATA wsa;
@@ -19,9 +18,13 @@ SOCKET create_socket_connect(const char ip[], const int port) {
     SOCKET socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_fd == -1) return -1;
 
-    if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(char){1}, sizeof(int)) == -1) return -1;
+    if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(char){1},
+                   sizeof(int)) == -1)
+        return -1;
 
-    if (connect(socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1) return -1;
+    if (connect(socket_fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) ==
+        -1)
+        return -1;
 
     return socket_fd;
 }

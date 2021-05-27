@@ -1,7 +1,7 @@
+#include "p_string.h"
+#include "varint.h"
 #include <stdlib.h>
 #include <string.h>
-#include "varint.h"
-#include "p_string.h"
 
 void write_string(char in_string[], p_string strbuf) {
     size_t s_len = strlen(in_string);
@@ -17,7 +17,6 @@ void write_string(char in_string[], p_string strbuf) {
 }
 
 void read_string(p_string to_read, char strbuf[]) {
-
     int strlength;
     // read leading varint
     read_varint(to_read, &strlength);
@@ -40,7 +39,6 @@ p_string encode_string(char str[]) {
 }
 
 char* decode_string(p_string to_read) {
-
     // +1 for null terminator
     char* strbuf = malloc(pstrlen(to_read) + 1);
     if (strbuf == NULL) {
@@ -50,7 +48,6 @@ char* decode_string(p_string to_read) {
     read_string(to_read, strbuf);
 
     return strbuf;
-
 }
 
 size_t pstrlen(p_string str) {

@@ -1,17 +1,16 @@
+#include "network.h"
+#include "session.h"
 #include <openssl/bio.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 #include <string.h>
 
-#include "network.h"
-#include "session.h"
-
 #define BuffSize 4096
 
 void report_and_exit(const char* msg) {
-  perror(msg);
-  ERR_print_errors_fp(stderr);
-  exit(-1);
+    perror(msg);
+    ERR_print_errors_fp(stderr);
+    exit(-1);
 }
 
 void init_ssl() {
@@ -35,10 +34,10 @@ void secure_connect(const char* hostname, char* request, char* response) {
     if (bio == NULL) report_and_exit("BIO_new_ssl_connect...");
 
     SSL* ssl = NULL;
-  
-    BIO_get_ssl(bio, &ssl); // session
+
+    BIO_get_ssl(bio, &ssl);  // session
     SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
-    BIO_set_conn_hostname(bio, hostname); // prepare to connect
+    BIO_set_conn_hostname(bio, hostname);  // prepare to connect
 
     if (BIO_do_connect(bio) <= 0) {
         cleanup_ssl(ctx, bio);
@@ -65,7 +64,9 @@ cJSON* post_req(const char* host, const char* path, const char* body) {
     char response[BuffSize];
     char message[BuffSize];
 
-    const char* message_fmt = "POST %s HTTP/1.1\r\nContent-Type: application/json\r\nHost: %s\r\nContent-Length: %i\r\n\r\n%s";
+    const char* message_fmt =
+        "POST %s HTTP/1.1\r\nContent-Type: application/json\r\nHost: "
+        "%s\r\nContent-Length: %i\r\n\r\n%s";
 
     sprintf(message, message_fmt, path, host, strlen(body), body);
     secure_connect(host, message, response);
@@ -83,7 +84,8 @@ cJSON* post_req(const char* host, const char* path, const char* body) {
 }
 
 // return value must be free'd using cJSON_Delete
-cJSON* join_server(const char* accessToken, const char* uuid, const char* hash) {
+cJSON* join_server(const char* accessToken, const char* uuid,
+                   const char* hash) {
     const char* hostname = "sessionserver.mojang.com:443";
 
     cJSON* body_json = cJSON_CreateObject();
@@ -95,13 +97,15 @@ cJSON* join_server(const char* accessToken, const char* uuid, const char* hash) 
     char* body_string = cJSON_Print(body_json);
     cJSON_Delete(body_json);
 
-    cJSON* response_json = post_req(hostname, "/session/minecraft/join", body_string);
+    cJSON* response_json =
+        post_req(hostname, "/session/minecraft/join", body_string);
 
     free(body_string);
     return response_json;
 }
 
-// struct Session auth_client(const char* username, const char* clientToken, const char* password) {
+// struct Session auth_client(const char* username, const char* clientToken,
+// const char* password) {
 struct Session auth_client(const char* username, const char* password) {
     const char* hostname = "authserver.mojang.com:443";
 
@@ -117,19 +121,25 @@ struct Session auth_client(const char* username, const char* password) {
 
     char* body_string = cJSON_Print(body_json);
     cJSON_Delete(body_json);
-    
+
     cJSON* response_json = post_req(hostname, "/authenticate", body_string);
 
     struct Session ret_session;
-    
-    ret_session.accessToken = cJSON_GetObjectItemCaseSensitive(response_json, "accessToken")->valuestring;
 
-    cJSON* selectedProfile = cJSON_GetObjectItem(response_json, "selectedProfile");
-    ret_session.name = cJSON_GetObjectItemCaseSensitive(selectedProfile, "name")->valuestring;
-    ret_session.uuid = cJSON_GetObjectItemCaseSensitive(selectedProfile, "id")->valuestring;
+    ret_session.accessToken =
+        cJSON_GetObjectItemCaseSensitive(response_json, "accessToken")
+            ->valuestring;
 
-    // cJSON_Delete(response_json); dont deallocate otherwise the pointers are lost
+    cJSON* selectedProfile =
+        cJSON_GetObjectItem(response_json, "selectedProfile");
+    ret_session.name =
+        cJSON_GetObjectItemCaseSensitive(selectedProfile, "name")->valuestring;
+    ret_session.uuid =
+        cJSON_GetObjectItemCaseSensitive(selectedProfile, "id")->valuestring;
+
+    // cJSON_Delete(response_json); dont deallocate otherwise the pointers are
+    // lost
     free(body_string);
-    
+
     return ret_session;
 }

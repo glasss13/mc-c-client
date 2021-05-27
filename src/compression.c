@@ -1,9 +1,9 @@
 #include "compression.h"
-
-#include <zlib.h>
 #include <stdio.h>
+#include <zlib.h>
 
-unsigned long zcompress(int inlen, char* inbuffer, int outlen, char* outbuffer) {
+unsigned long zcompress(int inlen, char* inbuffer, int outlen,
+                        char* outbuffer) {
     z_stream stream;
     stream.zalloc = Z_NULL;
     stream.zfree = Z_NULL;
@@ -21,7 +21,8 @@ unsigned long zcompress(int inlen, char* inbuffer, int outlen, char* outbuffer) 
     return stream.total_out;
 }
 
-unsigned long zdecompress(int inlen, char* inbuffer, int outlen, char* outbuffer) {
+unsigned long zdecompress(int inlen, char* inbuffer, int outlen,
+                          char* outbuffer) {
     z_stream stream;
     stream.zalloc = Z_NULL;
     stream.zfree = Z_NULL;
