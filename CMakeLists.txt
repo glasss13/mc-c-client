@@ -1,6 +1,8 @@
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.8)
 
-project ("mc-c-client")
+project("mc-c-client")
+
+add_executable(mc-c-client src/main.c src/compression.c src/encryption.c src/network.c src/p_string.c src/packet.c src/socket.c src/varint.c)
 
 # cJSON
 add_subdirectory(libs/cJSON)
