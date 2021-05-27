@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../include/varint.h"
-#include "../include/p_string.h"
+#include "varint.h"
+#include "p_string.h"
 
 void write_string(char in_string[], p_string strbuf) {
     size_t s_len = strlen(in_string);

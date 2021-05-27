@@ -1,4 +1,4 @@
-#include "../include/packet.h"
+#include "packet.h"
 
 #ifndef _WIN32
 #include <arpa/inet.h>
@@ -13,12 +13,12 @@
 #include <string.h>
 #include <time.h>
 
-#include "../include/bot.h"
-#include "../include/encryption.h"
-#include "../include/p_string.h"
-#include "../include/socket.h"
-#include "../include/varint.h"
-#include "../include/compression.h"
+#include "bot.h"
+#include "encryption.h"
+#include "p_string.h"
+#include "socket.h"
+#include "varint.h"
+#include "compression.h"
 
 // write to raw buffer from packet data
 int write_C00Handshake(struct Packet* packet, char* buffer) {

@@ -1,22 +1,19 @@
-#include <stdio.h>
 #include <openssl/rand.h>
-#include <string.h>
 #include <pthread.h>
 #ifndef _WIN32
-#include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #endif
 
-#include "../include/bot.h"
-#include "../include/varint.h"
-#include "../include/string.h"
-#include "../include/packet.h"
-#include "../include/socket.h"
-#include "../include/network.h"
-#include "../include/session.h"
-#include "../include/encryption.h"
-#include "../include/compression.h"
+#include "bot.h"
+#include "compression.h"
+#include "encryption.h"
+#include "network.h"
+#include "packet.h"
+#include "session.h"
+#include "socket.h"
+#include "string.h"
+#include "varint.h"
 
 void* channel_read(void* thread) {
     printf("Listening thread starting...\n");

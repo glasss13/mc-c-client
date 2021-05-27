@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "../include/varint.h"
+#include "varint.h"
 
 void read_varint(varint data, int* out) {
     char current_byte;

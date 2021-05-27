@@ -1,4 +1,4 @@
-#include "../include/compression.h"
+#include "compression.h"
 
 #include <zlib.h>
 #include <stdio.h>

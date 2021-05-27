@@ -1,4 +1,4 @@
-#include "../include/socket.h"
+#include "socket.h"
 
 SOCKET create_socket_connect(const char ip[], const int port) {
 

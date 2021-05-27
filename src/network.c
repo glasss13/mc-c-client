@@ -3,8 +3,8 @@
 #include <openssl/ssl.h>
 #include <string.h>
 
-#include "../include/network.h"
-#include "../include/session.h"
+#include "network.h"
+#include "session.h"
 
 #define BuffSize 4096
 
