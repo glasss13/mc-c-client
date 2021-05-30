@@ -10,7 +10,7 @@
 #include "encryption.h"
 #include "p_string.h"
 #include "socket.h"
-#include "varint.h"
+#include "varint2.h"
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #include <openssl/rsa.h>

@@ -13,7 +13,7 @@
 #include "session.h"
 #include "socket.h"
 #include "string.h"
-#include "varint.h"
+#include "varint2.h"
 
 void* channel_read(void* thread) {
     printf("Listening thread starting...\n");

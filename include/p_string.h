@@ -1,5 +1,5 @@
 #pragma once
-#include "varint.h"
+#include "varint2.h"
 
 // representation of the encoded string per the Minecraft protocol
 typedef char* p_string;
