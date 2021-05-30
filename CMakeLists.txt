@@ -1,12 +1,16 @@
-﻿cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.8)
 
 project("mc-c-client")
 
-add_executable(mc-c-client src/main.c src/compression.c src/encryption.c src/network.c src/p_string.c src/packet.c src/socket.c src/varint.c)
+add_executable(mc-c-client src/main.c src/compression.c src/encryption.c src/network.c src/p_string.c src/packet.c src/socket.c)
 
 # cJSON
 add_subdirectory(libs/cJSON)
 target_link_libraries(mc-c-client PUBLIC cJSON)
+
+# packet-types
+add_subdirectory(libs/ProtocolTypes)
+target_link_libraries(mc-c-client PUBLIC ProtocolTypes)
 
 # OPENSSL
 target_link_libraries(mc-c-client PUBLIC ${CMAKE_SOURCE_DIR}/external/openssl/lib/libcrypto.a)
