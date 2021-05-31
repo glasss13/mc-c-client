@@ -5,6 +5,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+// verifies a buffer is encoded as a varint and returns its size
+size_t static verify_buffer_and_size(uint8_t* buffer) {
+    size_t varint_size;
+
+    for (int i = 0; i < 5; i++) {
+        if ((buffer[i] & 0b10000000) == 0) {
+            varint_size = i + 1;
+            break;
+        }
+    }
+    assert((buffer[varint_size - 1] & 0b10000000) == 0);
+
+    return varint_size;
+}
+
 VARINT varint_from_int(int32_t to_varint) {
     uint8_t temp_varint_value[5];
     int8_t curr_byte;
@@ -37,6 +52,29 @@ VARINT varint_from_int(int32_t to_varint) {
         }
     }
     assert(false);
+}
+
+VARINT varint_from_buffer(uint8_t* buffer) {
+    VARINT output_varint;
+
+    size_t varint_size = verify_buffer_and_size(buffer);
+
+    output_varint.size = varint_size;
+    output_varint.data = malloc(varint_size);
+    memcpy(output_varint.data, buffer, varint_size);
+
+    return output_varint;
+}
+
+VARINT varint_buffer_as_varint(uint8_t* buffer) {
+    VARINT output_varint;
+
+    size_t varint_size = verify_buffer_and_size(buffer);
+
+    output_varint.size = varint_size;
+    output_varint.data = buffer;
+
+    return output_varint;
 }
 
 void varint_set(VARINT* const varint, int32_t to_write) {

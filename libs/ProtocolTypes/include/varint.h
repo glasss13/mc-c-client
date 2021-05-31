@@ -14,6 +14,15 @@ typedef struct varint_st {
 // Must be freed with varint_free()
 VARINT varint_from_int(int32_t to_varint);
 
+// Creates a varint from a byte buffer
+// Copies the underlying buffer's memory and must be free'd using varint_free()
+VARINT varint_from_buffer(uint8_t* buffer);
+
+// Similiar to varint_from_buffer, however does not do a new memory allocation
+// for the underlying data.
+// If free'd using varint_free() it will free the passed in buffer
+VARINT varint_buffer_as_varint(uint8_t* buffer);
+
 // Modify the value of the given varint
 // Changes the length as well, if necessary
 void varint_set(VARINT* const varint, int32_t to_write);
