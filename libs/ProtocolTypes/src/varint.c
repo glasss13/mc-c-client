@@ -5,8 +5,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-// verifies a buffer is encoded as a varint and returns its size
-size_t static verify_buffer_and_size(uint8_t* buffer) {
+size_t varint_sizeof_int_as_varint(int32_t num) {
+    for (size_t i = 0; i < 5; i++) {
+        num = (uint32_t)num >> 7;
+        if (num == 0) return i + 1;
+    }
+    assert(false);
+}
+
+size_t varint_sizeof_buffer_as_varint(uint8_t* buffer) {
     size_t varint_size;
 
     for (int i = 0; i < 5; i++) {
@@ -15,7 +22,11 @@ size_t static verify_buffer_and_size(uint8_t* buffer) {
             break;
         }
     }
-    assert((buffer[varint_size - 1] & 0b10000000) == 0);
+
+    // if the buffer does not encode a proper varint return -1 for failure
+    if ((buffer[varint_size - 1] & 0b10000000 == 0)) {
+        return -1;
+    }
 
     return varint_size;
 }
@@ -57,7 +68,8 @@ VARINT varint_from_int(int32_t to_varint) {
 VARINT varint_from_buffer(uint8_t* buffer) {
     VARINT output_varint;
 
-    size_t varint_size = verify_buffer_and_size(buffer);
+    size_t varint_size = varint_sizeof_buffer_as_varint(buffer);
+    assert(varint_size != -1);
 
     output_varint.size = varint_size;
     output_varint.data = malloc(varint_size);
@@ -69,7 +81,8 @@ VARINT varint_from_buffer(uint8_t* buffer) {
 VARINT varint_buffer_as_varint(uint8_t* buffer) {
     VARINT output_varint;
 
-    size_t varint_size = verify_buffer_and_size(buffer);
+    size_t varint_size = varint_sizeof_buffer_as_varint(buffer);
+    assert(varint_size != -1);
 
     output_varint.size = varint_size;
     output_varint.data = buffer;
@@ -128,12 +141,4 @@ int32_t varint_to_int(VARINT const* const varint) {
     assert(false);
 }
 
-size_t sizeof_int_as_varint(int32_t num) {
-    for (size_t i = 0; i < 5; i++) {
-        num = (uint32_t)num >> 7;
-        if (num == 0) return i + 1;
-    }
-    assert(false);
-}
-
-void varint_free(VARINT* const varint) { free(varint->data); }
+void varint_free(VARINT* varint) { free(varint->data); }
