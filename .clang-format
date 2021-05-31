@@ -9,6 +9,7 @@ PointerAlignment: Left
 
 IndentWidth: 4
 TabWidth: 4
+ColumnLimit: 0
 
 IncludeBlocks: Merge
 IncludeCategories:

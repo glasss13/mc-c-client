@@ -24,7 +24,7 @@ size_t varint_sizeof_buffer_as_varint(uint8_t* buffer) {
     }
 
     // if the buffer does not encode a proper varint return -1 for failure
-    if ((buffer[varint_size - 1] & 0b10000000 == 0)) {
+    if (((buffer[varint_size - 1] & 0b10000000) == 0)) {
         return -1;
     }
 
