@@ -15,20 +15,20 @@ size_t varint_sizeof_int_as_varint(int32_t num);
 
 // gets the size of a varint from a buffer containing a varint
 // returns -1 if there is no varint or it isn't properly encoded
-size_t varint_sizeof_buffer_as_varint(uint8_t* buffer);
+size_t varint_sizeof_buffer_as_varint(uint8_t const* const buffer);
 
 // Creates a varint encoded with the value `to_varint`
 // Must be freed with varint_free()
 VARINT varint_from_int(int32_t to_varint);
 
-// Creates a varint from a byte buffer
+// Creates a varint from a byte buffer and asserts it's correctly encoded
 // Copies the underlying buffer's memory and must be free'd using varint_free()
-VARINT varint_from_buffer(uint8_t* buffer);
+VARINT varint_from_buffer(uint8_t const* const buffer);
 
 // Similiar to varint_from_buffer, however does not do a new memory allocation
-// for the underlying data.
+// for the underlying data, also assersts proper encoding.
 // If free'd using varint_free() it will free the passed in buffer
-VARINT varint_buffer_as_varint(uint8_t* buffer);
+VARINT varint_buffer_as_varint(uint8_t* const buffer);
 
 // Modify the value of the given varint
 // Changes the length as well, if necessary

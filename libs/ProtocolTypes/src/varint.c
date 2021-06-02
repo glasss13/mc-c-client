@@ -13,7 +13,7 @@ size_t varint_sizeof_int_as_varint(int32_t num) {
     assert(false);
 }
 
-size_t varint_sizeof_buffer_as_varint(uint8_t* buffer) {
+size_t varint_sizeof_buffer_as_varint(uint8_t const* const buffer) {
     size_t varint_size;
 
     for (int i = 0; i < 5; i++) {
@@ -65,7 +65,7 @@ VARINT varint_from_int(int32_t to_varint) {
     assert(false);
 }
 
-VARINT varint_from_buffer(uint8_t* buffer) {
+VARINT varint_from_buffer(uint8_t const* const buffer) {
     VARINT output_varint;
 
     size_t varint_size = varint_sizeof_buffer_as_varint(buffer);
@@ -78,7 +78,7 @@ VARINT varint_from_buffer(uint8_t* buffer) {
     return output_varint;
 }
 
-VARINT varint_buffer_as_varint(uint8_t* buffer) {
+VARINT varint_buffer_as_varint(uint8_t* const buffer) {
     VARINT output_varint;
 
     size_t varint_size = varint_sizeof_buffer_as_varint(buffer);
