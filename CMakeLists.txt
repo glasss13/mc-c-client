@@ -22,3 +22,14 @@ target_link_libraries(mc-c-client PUBLIC ${CMAKE_SOURCE_DIR}/external/zlib/lib/l
 target_include_directories(mc-c-client PUBLIC external/zlib/include)
 
 target_include_directories(mc-c-client PUBLIC include)
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+endif()
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory(tests/ProtocolTypes)
+endif()
+
+add_test(NAME TestProtocolTypes COMMAND TestProtocolTypes)
+
