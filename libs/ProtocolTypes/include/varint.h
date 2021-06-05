@@ -26,7 +26,7 @@ VARINT varint_from_int(int32_t to_varint);
 VARINT varint_from_buffer(uint8_t const* const buffer);
 
 // Similiar to varint_from_buffer, however does not do a new memory allocation
-// for the underlying data, also assersts proper encoding.
+// for the underlying data, also asserts proper encoding.
 // If free'd using varint_free() it will free the passed in buffer
 VARINT varint_buffer_as_varint(uint8_t* const buffer);
 

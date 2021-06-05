@@ -15,16 +15,18 @@ size_t varint_sizeof_int_as_varint(int32_t num) {
 
 size_t varint_sizeof_buffer_as_varint(uint8_t const* const buffer) {
     size_t varint_size;
+    bool is_valid = false;
 
     for (int i = 0; i < 5; i++) {
         if ((buffer[i] & 0b10000000) == 0) {
             varint_size = i + 1;
+            is_valid = true;
             break;
         }
     }
 
     // if the buffer does not encode a proper varint return -1 for failure
-    if (((buffer[varint_size - 1] & 0b10000000) != 0)) {
+    if (!is_valid) {
         return -1;
     }
 
